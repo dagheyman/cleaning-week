@@ -11,12 +11,10 @@ create table tasks (
     description text not null
 );
 
--- a task associated with a user in time
-
-create table user_tasks (
+-- a completed task by a user
+create table completed_tasks (
     id serial primary key,
     task_id int references tasks(id),
     user_id int references users(id),
-    duration tsrange not null,
-    completed boolean not null
+    completed timestamp not null default now()
 );
