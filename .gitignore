@@ -1,2 +1,3 @@
 /sql/populate.sql
 conf.ini
+__pycache__/
