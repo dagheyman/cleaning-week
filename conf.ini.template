@@ -1,3 +1,5 @@
 [ConfigSection]
 db_name=''
 db_userd=''
+test_db_name=''
+test_db_user=''
