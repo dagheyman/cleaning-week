@@ -4,12 +4,6 @@
 import psycopg2
 import configparser
 
-# Load configs
-#config = configparser.ConfigParser()
-#config.read("./conf.ini")
-#db_name = config.get("ConfigSection", "db_name")
-#db_user = config.get("ConfigSection", "db_user")
-
 class DatabaseOperator:
 
     """This class is responsible for talking to the PSQL database. All queries go here."""
@@ -41,8 +35,3 @@ class DatabaseOperator:
         conn.close()
         return tasks;
 
-
-if __name__ == "__main__":
-        db = DatabaseOperator(db_name, db_user)
-        print(db.get_all_users())
-        print(db.get_all_tasks())
