@@ -12,26 +12,34 @@ class DatabaseOperator:
         self.db_name = db_name
         self.db_user = db_user
 
-    # Get all the users in the db
+
+    def query_all(self, sql):
+        
+        """ Performs a query on a new connection and fetches all from the cursor """
+
+        conn = psycopg2.connect("dbname=" + self.db_name + " user=" + self.db_user)
+        cur = conn.cursor()
+        cur.execute(sql)
+        result = cur.fetchall()
+        cur.close()
+        conn.close()
+        return result
+    
+
     def get_all_users(self):
-        conn = psycopg2.connect("dbname=" + self.db_name + " user=" + self.db_user)
-        cur = conn.cursor()
-        cur.execute("select * from users;")
-        users = cur.fetchall()
-        cur.close()
-        conn.commit()
-        conn.close()
-        return users;
+        
+        """ Get all the users from the db """
+        
+        sql = "select * from users"
+        return self.query_all(sql)
+    
 
-
-    # Get all the tasks in the db
     def get_all_tasks(self):
-        conn = psycopg2.connect("dbname=" + self.db_name + " user=" + self.db_user)
-        cur = conn.cursor()
-        cur.execute("select * from tasks;")
-        tasks = cur.fetchall()
-        cur.close()
-        conn.commit()
-        conn.close()
-        return tasks;
-
+        
+        """ Get all the tasks from the db """
+        
+        sql = "select * from tasks;"
+        return self.query_all(sql) 
+        
+    
+       
