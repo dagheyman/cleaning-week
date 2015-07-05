@@ -17,13 +17,13 @@ class Test(unittest.TestCase):
         """ Creates and populates a testing DB to be used in the integration tests. """
         
         config = configparser.ConfigParser()
-        config.read("./conf.ini")
+        config.read("../conf/conf.ini")
         self.test_db_name = config.get("ConfigSection", "test_db_name")
         self.test_db_user = config.get("ConfigSection", "test_db_user")
         call(["createdb", self.test_db_name])
-        call(["psql", "-d", self.test_db_name, "-f", "sql/create_tables.sql", "-q"]) 
-        call(["psql", "-d", self.test_db_name, "-f", "sql/functions.sql", "-q"])
-        call(["psql", "-d", self.test_db_name, "-f", "sql/populate_test_db.sql", "-q"], stdout=DEVNULL)
+        call(["psql", "-d", self.test_db_name, "-f", "../sql/create_tables.sql", "-q"]) 
+        call(["psql", "-d", self.test_db_name, "-f", "../sql/functions.sql", "-q"])
+        call(["psql", "-d", self.test_db_name, "-f", "../sql/populate_test_db.sql", "-q"], stdout=DEVNULL)
         self.db = db.DatabaseOperator(self.test_db_name, self.test_db_user)
 
     
