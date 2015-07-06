@@ -30,11 +30,21 @@ class Test(unittest.TestCase):
     def test_4_users_in_db(self):
         users = self.db.get_all_users()
         self.assertTrue(len(users) == 4);
-    
+  
+
     def test_4_tasks_in_db(self):
         tasks = self.db.get_all_tasks()
         self.assertTrue(len(tasks) == 4);
-    
+  
+
+    def test_complete_a_task_for_user_one(self):
+        self.db.complete_task(1, 1) 
+        self.assertTrue(self.db.is_task_completed(1, 1, '2015-01-01', '2015-12-31')[0])
+  
+
+    def test_complete_a_task_for_user_one_wrong_time(self):
+        self.db.complete_task(1, 1) 
+        self.assertFalse(self.db.is_task_completed(1, 1, '2000-01-01', '2000-12-31')[0])
     
     @classmethod
     def tearDownClass(self): 
