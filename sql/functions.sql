@@ -13,9 +13,9 @@ create function add_task(title text, description text) returns void as $$
 $$ LANGUAGE plpgsql;
 
 -- add a completion of a task
-create function complete_task(user_id int, task_id int) returns void as $$
+create function complete_task(user_id int, task_id int, completed timestamp) returns void as $$
     begin
-        insert into completed_tasks(user_id, task_id) values(user_id, task_id);
+        insert into completed_tasks(user_id, task_id, completed) values(user_id, task_id, completed);
     end
 $$ LANGUAGE plpgsql;
 
