@@ -4,20 +4,11 @@
 #                Web API                        #
 #################################################
 
-from db import db
 from bottle import route, run
 import json
-import configparser
-
-######## Configuration #############
-
-config = configparser.ConfigParser()
-config.read("conf/conf.ini")
-db_name = config.get("ConfigSection", "db_name")
-db_user = config.get("ConfigSection", "db_user")
-_db = db.DatabaseOperator(db_name, db_user)
 
 
+####### API methods #####################
 
 @route('/api/tasks')
 def get_all_tasks():
@@ -29,14 +20,18 @@ def get_all_users():
     return _json(_db.get_all_users())
 
 
+
+####### Util methods #####################
+
 def _json(data):
     return json.dumps(data, ensure_ascii=False).encode('utf8')
 
 
-
-######## Run server ################
-
-run(host='localhost', port=9090, debug=True)
+def start(db, host, port, debug):
+    """ Start the server """
+    global _db 
+    _db = db
+    run(host=host, port=port, debug=debug)
 
 
 
