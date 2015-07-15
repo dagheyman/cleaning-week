@@ -53,7 +53,7 @@ class DatabaseOperator:
             where user_id = %s 
             and task_id = %s 
             and completed >= %s 
-            and completed < %s)"""
+            and completed <= %s)"""
         data = (user_id, task_id, completed_start, completed_end)
         return self._query_one(sql, data)
     

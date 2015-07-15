@@ -6,6 +6,8 @@
 
 
 from bottle import route, run, error, response
+from isoweek import Week
+from datetime import date
 import json
 
 
@@ -24,24 +26,55 @@ def get_all_users():
     return _json(_db.get_all_users())
 
 
-@route('/api/tasks/week/<week_number>/user/<user_id>')
-def get_tasks_for_week(week_number, user_id):
-    if not _user_exists(int(user_id)):
+@route('/api/task/<year:int>/<week_number:int>/<user_id:int>')
+def get_tasks_for_week(year, week_number, user_id):
+
+    """ Get the task for a user for a week, with completion status. """
+    
+    if not _user_exists(user_id):
         response.status = 404
-        return "No such user."
+        return "Invalid user id."
+   
+    if (week_number < 1 or week_number > 53):
+        response.status = 500
+        return "Invalid week number."
 
     tasks = _db.get_all_tasks()
-    return _json(_get_task(int(user_id), int(week_number), tasks))
+    task = _get_task(user_id, week_number, tasks)
+    week = Week(year, week_number)
+    monday = week.monday().isoformat()
+    sunday = week.sunday().isoformat()
+    completed = _db.is_task_completed(user_id, task[0], monday, sunday)
+   
+    task_with_status = {
+                            "task": {
+                                "id": task[0], 
+                                "title": task[1], 
+                                "description": task[2], 
+                                "status": str(completed[0])
+                            }
+                       }    
+   
+    return _json(task_with_status)
+
+
+
+#########################################
+#       Error handling                  #
+#########################################
+
 
 @error(500)
 def error500(error):
     response.status = 500
-    return "Something went wrong"
+    return "Something went wrong."
+
 
 @error(404)
 def error404(error):
     response.status = 404
     return "Nothing here."
+
 
 #########################################
 #       Private methods                 #
