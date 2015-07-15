@@ -18,7 +18,15 @@ class Test(unittest.TestCase):
     def test_week_two_user_one(self):
         task = server._get_task(1, 2, self.tasks)
         self.assertTrue('task1' == task)
-      
+    
+    def test_valid_week(self):
+        week_number = 25
+        self.assertTrue(server._valid_week(week_number))
+
+    def test_invalid_week(self):
+        week_number = 55
+        self.assertFalse(server._valid_week(week_number))
+
     @classmethod
     def tearDownClass(self):
         pass
