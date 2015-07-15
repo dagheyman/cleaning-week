@@ -55,7 +55,7 @@ class DatabaseOperator:
             and completed >= %s 
             and completed <= %s)"""
         data = (user_id, task_id, completed_start, completed_end)
-        return self._query_one(sql, data)
+        return self._query_one(sql, data)[0]
     
     
     ##### Private DB methods #####
