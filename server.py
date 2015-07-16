@@ -52,7 +52,7 @@ def get_task_for_week(year, week_number, user_id):
                                 "id": task[0], 
                                 "title": task[1], 
                                 "description": task[2], 
-                                "status": str(_task_completed(user_id, task[0], year, week_number))
+                                "status": _task_completed(user_id, task[0], year, week_number)
                             }
                        }    
    
