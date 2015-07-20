@@ -5,10 +5,25 @@
 #################################################
 
 
-from bottle import route, get, post, run, error, response, request
+from bottle import route, get, post, run, error, response, request, static_file
 from isoweek import Week
 from datetime import date
 import json
+
+
+#########################################
+#       Static files                    #
+#########################################
+
+
+@route('/')
+def get_static():
+    return static_file("index.html", root='./static/')
+
+
+@route('/<file_name>')
+def get_static(file_name):
+    return static_file(file_name, root='./static/')
 
 
 #########################################
