@@ -32,8 +32,59 @@ def get_all_users():
     return _json(_db.get_all_users())
 
 
-@get('/api/tasks/<year:int>/<week_number:int>/<user_id:int>')
-def get_task_for_week(year, week_number, user_id):
+@get('/api/tasks/<user_id:int>')
+def get_task_for_current_week(user_id):
+    
+    if not _user_exists(user_id):
+        response.status = 404
+        return _json("Invalid user id.")
+
+    return _get_task_for_week(date.today().year, date.today().isocalendar()[1], user_id)
+
+
+@post('/api/tasks/<user_id:int>/<task_id:int>/complete')
+def complete_task(user_id, task_id):
+
+    """ Complete a task for a specific user for the current week """
+
+    if not _user_exists(user_id):
+        response.status = 404
+        return "Invalid user id."
+   
+    if not _task_exists(task_id):
+        response.status = 404
+        return "Invalid task id."
+
+    if _task_completed(user_id, task_id, date.today().year, date.today().isocalendar()[1]):
+        response.status = 403
+        return "Task already completed."
+
+    _db.complete_task(user_id, task_id)
+    return _json("Task completed.")
+
+
+#########################################
+#       Error handling                  #
+#########################################
+
+
+@error(500)
+def error500(error):
+    response.status = 500
+    return "Something went wrong."
+
+
+@error(404)
+def error404(error):
+    response.status = 404
+    return "Nothing here."
+
+
+#########################################
+#       Private methods                 #
+#########################################
+
+def _get_task_for_week(year, week_number, user_id):
 
     """ Get the task for a user for a week, with completion status. """
     
@@ -58,53 +109,6 @@ def get_task_for_week(year, week_number, user_id):
    
     return _json(task_with_status)
 
-
-@post('/api/tasks/<year:int>/<week_number:int>/<user_id:int>/<task_id:int>/complete')
-def complete_task(year, week_number, user_id, task_id):
-
-    """ Complete a task for a specific user and week """
-
-    if not _valid_week(week_number):
-        response.status = 500
-        return "Invalid week number."
-
-    if not _user_exists(user_id):
-        response.status = 404
-        return "Invalid user id."
-   
-    if not _task_exists(task_id):
-        response.status = 404
-        return "Invalid task id."
-
-    if _task_completed(user_id, task_id, year, week_number):
-        response.status = 403
-        return "Task already completed."
-
-    _db.complete_task(user_id, task_id)
-    return _json("Task completed.")
-
-
-
-#########################################
-#       Error handling                  #
-#########################################
-
-
-@error(500)
-def error500(error):
-    response.status = 500
-    return "Something went wrong."
-
-
-@error(404)
-def error404(error):
-    response.status = 404
-    return "Nothing here."
-
-
-#########################################
-#       Private methods                 #
-#########################################
 
 def _get_task(user_id, week_number, ordered_tasks):
 
