@@ -43,8 +43,14 @@ def get_all_tasks():
 def get_all_users():
 
     """ Get all available users """
-
-    return _json(_db.get_all_users())
+    
+    users_list = []
+    users_dict = {}
+    for user in _db.get_all_users():
+        users_list.append({"id" : user[0], "name" : user[1]})
+        
+    users_dict["users"] = users_list
+    return _json(users_dict)
 
 
 @get('/api/tasks/<user_id:int>')
