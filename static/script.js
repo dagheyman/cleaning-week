@@ -42,9 +42,24 @@
         var buttons = document.getElementsByClassName('user-button');
         for (var i=0; i < buttons.length; i++) {
             buttons[i].addEventListener("click", function(e) {
-                console.log(e.currentTarget.innerHTML + " is clicked!");
+                getTask(e.currentTarget.id);
             });
         }
+    }
+
+
+    function getTask(id) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === 4
+                    && httpRequest.status === 200) {
+                var json = JSON.parse(httpRequest.responseText);
+                console.log(json.task);
+            }
+        }
+
+        httpRequest.open('GET', 'http://localhost:8080/api/tasks/' + id, true);
+        httpRequest.send(null);
     }
 
     getUsers();
