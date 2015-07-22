@@ -15,7 +15,11 @@ httpRequest.send(null);
  */
 function createBtns(users) {
     var cleaning = document.getElementById('cleaning');
+  
     for (var i = 0; i < users.length; i++) {
-        cleaning.innerHTML += '<button id=' + users[i].id +  '>' + users[i].name + '</button>';
+        var button = document.createElement('button');
+        button.id = users[i].id;
+        button.innerHTML = users[i].name;
+        cleaning.appendChild(button);
     }
 }
