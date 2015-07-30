@@ -1,6 +1,45 @@
 (function() {
 
     /**
+     * This is how we can get the current week in JS
+     */
+    Date.prototype.getWeek = function() {
+        var date = new Date(this.getTime());   
+        date.setHours(0, 0, 0, 0); 
+        // Thursday in current week decides the year. 
+        date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7); 
+        // January 4 is always in week 1. 
+        var week1 = new Date(date.getFullYear(), 0, 4); 
+       // Adjust to Thursday in week 1 and count number of weeks from date to week1. 
+       return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);   
+    }
+
+
+    /**
+     * Make the back button work
+     */
+    window.onhashchange = function() {
+        if (window.location.hash === "") {
+            removeChildren('cleaning');
+            getUsers();
+        }
+    }
+    
+    /**
+     * Entry point
+     */
+    
+    window.onload = function() {
+        getUsers();
+        printCurrentWeek();
+    }
+
+    function printCurrentWeek() {
+        var currentWeek = document.getElementById('current-week');
+        currentWeek.innerHTML = 'Vecka: ' + (new Date()).getWeek();
+    }    
+
+    /**
      * Get the users from the API
      */
     function getUsers() {
@@ -17,6 +56,7 @@
         httpRequest.open('GET', 'http://localhost:8080/api/users', true);
         httpRequest.send(null);
     }
+
 
 
    /**
@@ -145,21 +185,5 @@
             element.removeChild(element.firstChild);
         }
     }
-
-    /**
-     * Make the back button work
-     */
-    window.onhashchange = function() {
-        if (window.location.hash === "") {
-            removeChildren('cleaning');
-            getUsers();
-        }
-    }
-    
-    /**
-     * Entry point
-     */
-
-    getUsers();
 
 })();
