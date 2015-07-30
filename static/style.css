@@ -1,8 +1,16 @@
 body {
-        background: grey;
+    background: #C39B9B;
 }
+
 
 .user-button {
     width: 100%;
     margin-top: 1em;
+    height: 2em;
+    background-color: #FFF25E;
+    color: #000;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-size: 2em;
+    border: 0px;
 }
+
