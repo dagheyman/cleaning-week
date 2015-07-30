@@ -48,18 +48,20 @@
     }
 
 
-    function getTask(id) {
+    /**
+     * Get the task for a specific user for the current week
+     */
+    function getTask(userId) {
         var httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = function() {
             if (httpRequest.readyState === 4
                     && httpRequest.status === 200) {
                 var json = JSON.parse(httpRequest.responseText);
-                showTask(json.task);
-                console.log(json.task);
+                showTask(json.task, userId);
             }
         }
 
-        httpRequest.open('GET', 'http://localhost:8080/api/tasks/' + id, true);
+        httpRequest.open('GET', 'http://localhost:8080/api/tasks/' + userId, true);
         httpRequest.send(null);
     }
 
@@ -67,17 +69,11 @@
     /**
      * The view for showing a specific task
      */
-    function showTask(task) {
-        
+    function showTask(task, userId) {
+        window.location.hash = userId;
+
         removeChildren('cleaning');
         var cleaning = document.getElementById('cleaning');
-        
-        // Create a back button to go back to the main menu.
-        var back = document.createElement('a');
-        back.href = window.location;
-        back.innerHTML = '<<<';
-        back.className = 'back-btn';
-        cleaning.appendChild(back);
         
         // Element for the task title 
         var title = document.createElement('div'); 
@@ -97,6 +93,46 @@
         status.className = 'task-field';
         status.innerHTML = "Klar: " + statusString;
         cleaning.appendChild(status);
+
+        // A complete button if task is not completed
+        if (!task.status) {
+            var completeBtn = document.createElement('button');
+            completeBtn.className = 'complete-button';
+            completeBtn.innerHTML = 'Jag är klar!';
+            completeBtn.id = 'complete-button';
+            cleaning.appendChild(completeBtn);
+        
+            listenOnCompleteBtn(completeBtn.id, userId, task.id);
+        }
+    }
+
+
+    /**
+     * Listen on the complete button
+     */
+    function listenOnCompleteBtn(buttonId, userId, taskId) {
+        var completeBtn = document.getElementById(buttonId);
+        completeBtn.addEventListener("click", function(e) {
+            completeTask(userId, taskId);
+        });
+    }
+
+
+    /**
+     * Complete a task for a user this week
+     */
+    function completeTask(userId, taskId) {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = function() {
+            if (httpRequest.readyState === 4
+                    && httpRequest.status === 200) {
+                getTask(userId);
+            }
+        }
+
+        httpRequest.open(
+                'POST', 'http://localhost:8080/api/tasks/' + userId + '/' + taskId + '/complete', true);
+        httpRequest.send(null);
     }
 
 
@@ -110,6 +146,19 @@
         }
     }
 
+    /**
+     * Make the back button work
+     */
+    window.onhashchange = function() {
+        if (window.location.hash === "") {
+            removeChildren('cleaning');
+            getUsers();
+        }
+    }
+    
+    /**
+     * Entry point
+     */
 
     getUsers();
 

@@ -3,7 +3,7 @@ body {
 }
 
 
-.user-button {
+.user-button, .complete-button {
     width: 100%;
     margin-top: 1em;
     height: 2em;
