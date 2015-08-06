@@ -36,6 +36,7 @@
 
     function printCurrentWeek() {
         var currentWeek = document.getElementById('current-week');
+        currentWeek.className = 'week-title';
         currentWeek.innerHTML = 'Vecka: ' + (new Date()).getWeek();
     }    
 
@@ -115,24 +116,23 @@
         removeChildren('cleaning');
         var cleaning = document.getElementById('cleaning');
         
+        // Wrapper div
+        var taskWrapper = document.createElement('div');
+        taskWrapper.className = 'task-wrapper';
+
         // Element for the task title 
         var title = document.createElement('div'); 
-        title.innerHTML = "Titel: " + task.title;
-        title.className = 'task-field'; 
-        cleaning.appendChild(title);
+        title.innerHTML = task.title;
+        title.className = 'task-title'; 
+        taskWrapper.appendChild(title);
 
         // Element for the task description
         var description = document.createElement('div'); 
-        description.innerHTML = "Beskrivning: " + task.description;
-        description.className = 'task-field';
-        cleaning.appendChild(description);
+        description.innerHTML = task.description;
+        description.className = 'task-desc';
+        taskWrapper.appendChild(description);
         
-        // Element for the task status
-        var statusString = task.status ? "Klar" : "Ej klar";
-        var status = document.createElement('div');
-        status.className = 'task-field';
-        status.innerHTML = "Klar: " + statusString;
-        cleaning.appendChild(status);
+        cleaning.appendChild(taskWrapper);
 
         // A complete button if task is not completed
         if (!task.status) {
@@ -143,6 +143,11 @@
             cleaning.appendChild(completeBtn);
         
             listenOnCompleteBtn(completeBtn.id, userId, task.id);
+        } else {
+            var done = document.createElement('div');
+            done.className = 'task-done';
+            done.innerHTML = '✓';
+            cleaning.appendChild(done);
         }
     }
 

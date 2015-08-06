@@ -1,24 +1,64 @@
-body {
-    background: #C39B9B;
+* {
+    margin: 0;
+    padding: 0;
 }
 
+body {
+    background: #FFF;
+}
+
+.week-title, .user-button, .task-title, .task-desc, .task-done, .complete-button {
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+.week-title {
+    width: 100%;
+    font-size: 2em;
+    text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+}
+
+.user-button, .task-wrapper {
+    background-color: #EFEFEF;
+}
+
+.complete-button {
+    background-color: #93F389;
+}
 
 .user-button, .complete-button {
     width: 100%;
-    margin-top: 1em;
+    margin-top: 0.4em;
     height: 2em;
-    background-color: #FFF25E;
     color: #000;
-    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
-    font-size: 2em;
+    font-size: 1.5em;
     border: 0px;
 }
 
-.task-field {
+.task-wrapper {
+    margin-bottom: 3em;
+}
+
+.task-title, .task-desc {
     width: 100%;
-    background-color: #CBF0AE;
-    font-size: 1.5em;
-    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    text-align: center;
     color: #000;
     margin-top: 5%;
+}
+
+.task-title {
+    font-size: 1.5em;
+    padding-top: 0.5em;
+}
+
+.task-desc {
+    font-size: 1em;
+    padding-bottom: 1em;
+}
+
+.task-done {
+    text-align: center;
+    color: #93F389;
+    font-size: 3em;
 }
