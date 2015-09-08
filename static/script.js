@@ -54,7 +54,7 @@
             }
         }
 
-        httpRequest.open('GET', 'http://localhost:8080/api/users', true);
+        httpRequest.open('GET', 'http://' + window.location.hostname + ':8080/api/users', true);
         httpRequest.send(null);
     }
 
@@ -102,7 +102,7 @@
             }
         }
 
-        httpRequest.open('GET', 'http://localhost:8080/api/tasks/' + userId, true);
+        httpRequest.open('GET', 'http://' + window.location.hostname + ':8080/api/tasks/' + userId, true);
         httpRequest.send(null);
     }
 
@@ -176,7 +176,7 @@
         }
 
         httpRequest.open(
-                'POST', 'http://localhost:8080/api/tasks/' + userId + '/' + taskId + '/complete', true);
+                'POST', 'http://' + window.location.hostname + ':8080/api/tasks/' + userId + '/' + taskId + '/complete', true);
         httpRequest.send(null);
     }
 
