@@ -20,7 +20,13 @@ body {
 }
 
 .user-button, .task-wrapper {
-    background-color: #EFEFEF;
+    background-color: #C8F9FB;
+}
+
+.task-wrapper, .complete-button {
+    width: 85%;
+    margin-left: 7.5%;
+    margin-right: 7.5%; 
 }
 
 .complete-button {
@@ -28,16 +34,33 @@ body {
 }
 
 .user-button, .complete-button {
-    width: 100%;
     margin-top: 0.4em;
     height: 2em;
     color: #000;
     font-size: 1.5em;
     border: 0px;
+    border-radius: 1em;
+}
+
+.user-button.left-btn, .user-button.right-btn {
+   width: 40%;
+   height: 3em;
+}
+
+.user-button.left-btn {
+    margin-left: 7.5%;
+    margin-right: 2.5%;
+}
+
+.user-button.right-btn {
+    margin-right: 7.5%;
+    margin-left: 2.5%;
 }
 
 .task-wrapper {
-    margin-bottom: 3em;
+    margin-top: 2em;
+    margin-bottom: 5em;
+    border-radius: 1em;
 }
 
 .task-title, .task-desc {
