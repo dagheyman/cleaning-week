@@ -7,7 +7,7 @@
 
 from bottle import route, get, post, run, error, response, request, static_file
 from isoweek import Week
-from datetime import date
+from datetime import date, timedelta
 import json
 
 
@@ -175,9 +175,9 @@ def _task_completed(user_id, task_id, year, week_number):
     
     week = Week(year, week_number)
     monday = week.monday().isoformat()
-    sunday = week.sunday().isoformat()
-    return _db.is_task_completed(user_id, task_id, monday, sunday)
-                
+    next_monday = week.sunday() + timedelta(days=1)
+    return _db.is_task_completed(user_id, task_id, monday, next_monday)
+
 
 def _json(data):
     
